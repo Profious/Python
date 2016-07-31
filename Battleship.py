@@ -29,11 +29,11 @@ ship_col = random_col(board)
 player_row = int(raw_input("What row do you want your battleship to be in?  Row: ")) - 1
 player_col = int(raw_input("What column do you want your battleship to be in?  Column: ")) - 1
 
-if player_row > 4 or player_col > 4 or player_col < 1 or player_row < 1:
+if player_row > 4 or player_col > 4 or player_col < 0 or player_row < 0:
     print "\nThat location is unavailable. Please pick another spot (from 1 to 5).\n"
     player_row = int(raw_input("What row do you want your battleship to be in?  Row: ")) - 1
     player_col = int(raw_input("What column do you want your battleship to be in?  Column: ")) - 1
-    if player_row > 4 or player_col > 4 or player_col < 1 or player_row < 1:
+    if player_row > 4 or player_col > 4 or player_col < 0 or player_row < 0:
         print "\nThat location is also unavailable. Your battleship has been placed on row 3, column 3.\n"
         player_row = 2
         player_col = 2
@@ -69,7 +69,7 @@ for turn in range(50):
 
     else:
 
-        if (guess_row not in range(5) or guess_col not in range(5)) or board[guess_row][guess_col] =! "O"
+        if (guess_row not in range(5) or guess_col not in range(5)) or board[guess_row][guess_col] != "O":
             print "Oops, that spot's not available."
         else:
             print "You missed the enemy's battleship!"
