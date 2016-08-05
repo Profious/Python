@@ -57,17 +57,27 @@ while True:
 
 #THE TURN SYSTEM
 for turn in range(50):
+    """
+IT'S VERY IMPORTANT TO NOTE THAT THE WHOLE SYSTEM BREAKS DOWN ON THE 3RD TURN BECAUSE FOR REASONS UNKNOWN TO ME
+IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED.
+    """
+#ASKS WHAT ROW YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
         try:
             guess_row = int(raw_input("Guess row: ")) - 1
             useless_var_row = board[guess_row]
             break
         except:
-            print "\nThat location is unavailable. Please pick another row (from 1 to 5)."
+            print "\nOops, that stop is unavailable. Please pick another row (from 1 to 5)."
+#ASKS WHAT COLUMN YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
+    while True:
+        try:
+            guess_col = int(raw_input("Guess column: ")) - 1
+            useless_var_col = board[guess_col]
+            break
+        except:
+            print "\nOops, that stop is unavailable. Please pick another column (from 1 to 5)."
 
-    """ guess_row = int(raw_input("Guess Row: ")) - 1
-        guess_col = int(raw_input("Guess Col: ")) - 1
-    """
     enemy_guess_row = random_row(board)
     enemy_guess_col = random_col(board)
 #THIS MAKES SURE THAT THE ENEMY IS SHOOTING IN A VALID LOCATION
@@ -84,19 +94,15 @@ for turn in range(50):
     if guess_row == ship_row and guess_col == ship_col:
         print "Congratulations! You sank the enemy's battleship!"
         break
-#
     else:
-        if (guess_row not in range(5) or guess_col not in range(5)) or board[guess_row][guess_col] != "O":
-            print "Oops, that spot's not available."
-        else:
-            print "You missed the enemy's battleship!"
-            board[guess_row][guess_col] = "X"
-        if guess_col == player_col and guess_row == player_row:
-            board[guess_row][guess_col] = "B"
-        print "Turn", turn + 1
-        print " "
-        print print_board(board)
-        print " \n "
+        print "You missed the enemy's battleship!"
+        board[guess_row][guess_col] = "X"
+    if guess_col == player_col and guess_row == player_row:
+        board[guess_row][guess_col] = "B"
+    print "Turn", turn + 1
+    print " "
+    print print_board(board)
+    print " \n "
 
     if enemy_guess_col == player_col and enemy_guess_row == player_row:
         answer = raw_input("Game Over!\nWould you like to know the position of the enemy's ship?(Y/N): ")
