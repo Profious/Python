@@ -4,6 +4,9 @@ the enemy's location.  The enemy also shoots at the player each turn, and code i
 to insure that neither the player nor the enemy shoot/place their battleships in a stop that doesn't
 make sense
 """
+# Todo: add in the pebcak system that gives the user a unique message depending on the amount of times they've messed up
+# Todo: fix the whole system from 96-103
+# Todo: add a key after every time the board is printed so that people can actually know what's going on
 
 
 from random import randint
@@ -109,6 +112,6 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
         if answer.lower() == 'y':
             print "The enemy's battleship was on row " + str(ship_row + 1) + " and column " + str(ship_col + 1) + "."
             board[ship_row][ship_col] = "E"
-            board[enemy_guess_row][enemy_guess_col] = "C"
+            board[player_row][player_col] = "C"
             print print_board(board)
         break
