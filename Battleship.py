@@ -4,13 +4,25 @@ the enemy's location.  The enemy also shoots at the player each turn, and code i
 to insure that neither the player nor the enemy shoot/place their battleships in a stop that doesn't
 make sense
 """
-# Todo: add in the pebcak system that gives the user a unique message depending on the amount of times they've messed up
-# Todo: fix the whole system from 96-103
+# Todo: integrate the pebcak system (pebcak_sys(pebcak_numb))
+# Todo: fix the whole system at the bottom
 # Todo: add a key after every time the board is printed so that people can actually know what's going on
 
 
 from random import randint
-
+#THIS IS THE SYSTEM THAT GIVES A UNIQUE MESSAGE DEPENDANT ON THE AMOUNT OF TIMES YOU ENTER AN INVALID INPUT
+pebcak = ["Now now, you know you shouldn't be doing that.", "Seriously, please stop it.",
+          "Okay, you really need to stop.", "You're pushing my last buttons", "YOU WASTE OF OXYGEN, STOP IT!!!",]
+pebcak_numb = 0
+def pebcak_sys(pebcak_numb):
+    if pebcak_numb >= 5:
+        stupid_lvl = 1
+        while True:
+            stupid_lvl += 1
+            print "YOUR STUPIDITY LEVEl: " + str(stupid_lvl)
+    else:
+        print pebcak[pebcak_numb]
+    pebcak_numb += 1
 
 board = []
 #THIS SETS THE BOARD
@@ -35,6 +47,7 @@ while True:
         break
     except:
         print "\nThat location is unavailable. Please pick another row (from 1 to 5)."
+       pebcak_sys(pebcak_numb)
 #MAKES SURE THE COLUMN PICKED FOR THE PLAYER'S BATTLESHIP IS VALID
 while True:
     try:
@@ -43,6 +56,7 @@ while True:
         break
     except:
         print "\nThat location is unavailable. Please pick another column (from 1 to 5)."
+        pebcak_sys(pebcak_numb)
 
 board[player_row][player_col] = "B"
 
@@ -72,6 +86,7 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
             break
         except:
             print "\nOops, that stop is unavailable. Please pick another row (from 1 to 5)."
+            pebcak_sys(pebcak_numb)
 #ASKS WHAT COLUMN YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
         try:
@@ -80,6 +95,7 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
             break
         except:
             print "\nOops, that stop is unavailable. Please pick another column (from 1 to 5)."
+            pebcak_sys(pebcak_numb)
 
     enemy_guess_row = random_row(board)
     enemy_guess_col = random_col(board)
