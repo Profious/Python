@@ -2,7 +2,7 @@
 Battleship style game.  It first asks you to pick a spot for you battleship, then asks you to guess
 the enemy's location.  The enemy also shoots at the player each turn, and code is put into place as
 to insure that neither the player nor the enemy shoot/place their battleships in a stop that doesn't
-make sense
+make sense :D
 """
 # Todo: integrate the pebcak system (pebcak_sys(pebcak_numb))
 # Todo: fix the whole system at the bottom
