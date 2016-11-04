@@ -8,7 +8,6 @@ make sense :D
 # Todo: fix the whole system at the bottom
 # Todo: add a key after every time the board is printed so that people can actually know what's going on
 # Todo: if a stop has already been guess, let the player guess again
-# Todo: make it so that the computer can't guess itself own location
 
 from random import randint
 #THIS IS THE SYSTEM THAT GIVES A UNIQUE MESSAGE DEPENDANT ON THE AMOUNT OF TIMES YOU ENTER AN INVALID INPUT
