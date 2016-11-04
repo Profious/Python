@@ -1,22 +1,21 @@
 """
+STILL WORK IN PROGRESS
 Battleship style game.  It first asks you to pick a spot for you battleship, then asks you to guess
 the enemy's location.  The enemy also shoots at the player each turn, and code is put into place as
 to insure that neither the player nor the enemy shoot/place their battleships in a stop that doesn't
 make sense :D
 """
-# Todo: integrate the pebcak system (pebcak_sys(pebcak_numb))
 # Todo: fix the whole system at the bottom
 # Todo: add a key after every time the board is printed so that people can actually know what's going on
 # Todo: if a stop has already been guess, let the player guess again
+# Todo: make it so that normally, the enemy can't guess their where their own ship is
+# Todo: add a hard mode where the enemy CAN guess where their own ship is
+# Todo: make it so that if you try and guess your own spot, it stops everything and makes you redo, because currently you can win by just guessing your spot again amd again
+# Todo: on the last round, your battleship's "B" turns to a "Y"
+# Todo: when the player wins, the board that is printed out doesn't show their winning move
 
 from random import randint
-#THIS IS THE SYSTEM THAT GIVES A UNIQUE MESSAGE DEPENDANT ON THE AMOUNT OF TIMES YOU ENTER AN INVALID INPUT
-pebcak = ["Now now, you know you shouldn't be doing that.", "Seriously, please stop it.",
-          "Okay, you really need to stop.", "You're pushing my last buttons", "YOU WASTE OF OXYGEN, STOP IT!!!",]
 
-pebcak_numb = -1
-def pebcak_sys(pebcak_numb):
-    pebcak_numb += 1
 board = []
 #THIS SETS THE BOARD
 for x in range(0, 5):
@@ -35,20 +34,22 @@ def random_col(board):
 #MAKES SURE THE ROW PICKED FOR THE PLAYER'S BATTLESHIP IS VALID
 while True:
     try:
-        player_row = int(raw_input("\nWhat row do you want your battleship to be in?  Row: ")) - 1
+        player_row = int(raw_input("What row do you want your battleship to be in?  Row: ")) - 1
         useless_var_row = board[player_row]
+        print "\n"
         break
     except:
-        pebcak_sys(pebcak_numb)
+        print "\nThat spot is invalid."
 #MAKES SURE THE COLUMN PICKED FOR THE PLAYER'S BATTLESHIP IS VALID
 while True:
     try:
         player_col = int(raw_input("What column do you want your battleship to be in?  Column: ")) - 1
         useless_var_col = board[player_col]
+        print "\n"
         break
     except:
-        pebcak_sys(pebcak_numb)
-
+        print "\nThat spot is invalid."
+        
 board[player_row][player_col] = "B"
 
 #PICKS THE ENEMY SHIP'S LOCATION
@@ -63,10 +64,9 @@ while True:
     if player_row != ship_row or player_col != ship_col:
         break
 
+turn = 0
 #THE TURN SYSTEM
-for turn in range(50):
-    """IT'S VERY IMPORTANT TO NOTE THAT THE WHOLE SYSTEM BREAKS DOWN ON THE 3RD TURN BECAUSE FOR REASONS UNKNOWN TO ME
-    IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED"""
+while True:
 #ASKS WHAT ROW YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
         try:
@@ -75,7 +75,6 @@ for turn in range(50):
             break
         except:
             print "\nOops, that spot is unavailable. Please pick another row (from 1 to 5)."
-            pebcak_sys(pebcak_numb)
 #ASKS WHAT COLUMN YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
         try:
@@ -84,7 +83,6 @@ for turn in range(50):
             break
         except:
             print "\nOops, that spot is unavailable. Please pick another column (from 1 to 5)."
-            pebcak_sys(pebcak_numb)
 #DECIDES WHERE THE ENEMY WILL SHOOT THAT ROUND
     enemy_guess_row = random_row(board)
     enemy_guess_col = random_col(board)
@@ -102,13 +100,15 @@ for turn in range(50):
 # THIS IS WHAT DETERMINES IF YOU WON OR NOT EACH ROUND
     if guess_row == ship_row and guess_col == ship_col:
         print "Congratulations! You sank the enemy's battleship!"
+        print_board(board)
         break
     else:
         print "You missed the enemy's battleship!\n"
         board[guess_row][guess_col] = "X"
     if guess_col == player_col and guess_row == player_row:
         board[guess_row][guess_col] = "B"
-    print "Turn", turn + 1
+    turn += 1
+    print "Turn", turn
     print " "
     print print_board(board)
     print " \n "
