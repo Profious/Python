@@ -7,23 +7,17 @@ make sense :D
 # Todo: integrate the pebcak system (pebcak_sys(pebcak_numb))
 # Todo: fix the whole system at the bottom
 # Todo: add a key after every time the board is printed so that people can actually know what's going on
-
+# Todo: if a stop has already been guess, let the player guess again
+# Todo: make it so that the computer can't guess itself own location
 
 from random import randint
 #THIS IS THE SYSTEM THAT GIVES A UNIQUE MESSAGE DEPENDANT ON THE AMOUNT OF TIMES YOU ENTER AN INVALID INPUT
 pebcak = ["Now now, you know you shouldn't be doing that.", "Seriously, please stop it.",
           "Okay, you really need to stop.", "You're pushing my last buttons", "YOU WASTE OF OXYGEN, STOP IT!!!",]
-pebcak_numb = 0
-def pebcak_sys(pebcak_numb):
-    if pebcak_numb >= 5:
-        stupid_lvl = 1
-        while True:
-            stupid_lvl += 1
-            print "YOUR STUPIDITY LEVEl: " + str(stupid_lvl)
-    else:
-        print pebcak[pebcak_numb]
-    pebcak_numb += 1
 
+pebcak_numb = -1
+def pebcak_sys(pebcak_numb):
+    pebcak_numb += 1
 board = []
 #THIS SETS THE BOARD
 for x in range(0, 5):
@@ -42,12 +36,11 @@ def random_col(board):
 #MAKES SURE THE ROW PICKED FOR THE PLAYER'S BATTLESHIP IS VALID
 while True:
     try:
-        player_row = int(raw_input("What row do you want your battleship to be in?  Row: ")) - 1
+        player_row = int(raw_input("\nWhat row do you want your battleship to be in?  Row: ")) - 1
         useless_var_row = board[player_row]
         break
     except:
-        print "\nThat location is unavailable. Please pick another row (from 1 to 5)."
-       pebcak_sys(pebcak_numb)
+        pebcak_sys(pebcak_numb)
 #MAKES SURE THE COLUMN PICKED FOR THE PLAYER'S BATTLESHIP IS VALID
 while True:
     try:
@@ -55,7 +48,6 @@ while True:
         useless_var_col = board[player_col]
         break
     except:
-        print "\nThat location is unavailable. Please pick another column (from 1 to 5)."
         pebcak_sys(pebcak_numb)
 
 board[player_row][player_col] = "B"
@@ -69,15 +61,13 @@ while True:
     if player_row == ship_row and player_col == ship_col:
         ship_row = random_row(board)
         ship_col = random_col(board)
-    else:
+    if player_row != ship_row or player_col != ship_col:
         break
 
 #THE TURN SYSTEM
 for turn in range(50):
-    """
-IT'S VERY IMPORTANT TO NOTE THAT THE WHOLE SYSTEM BREAKS DOWN ON THE 3RD TURN BECAUSE FOR REASONS UNKNOWN TO ME
-IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
-    """
+    """IT'S VERY IMPORTANT TO NOTE THAT THE WHOLE SYSTEM BREAKS DOWN ON THE 3RD TURN BECAUSE FOR REASONS UNKNOWN TO ME
+    IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED"""
 #ASKS WHAT ROW YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
         try:
@@ -85,7 +75,7 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
             useless_var_row = board[guess_row]
             break
         except:
-            print "\nOops, that stop is unavailable. Please pick another row (from 1 to 5)."
+            print "\nOops, that spot is unavailable. Please pick another row (from 1 to 5)."
             pebcak_sys(pebcak_numb)
 #ASKS WHAT COLUMN YOU WANT TO SHO0T THAT ROUND AND ENSURES THAT IT'S VALID
     while True:
@@ -94,19 +84,20 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
             useless_var_col = board[guess_col]
             break
         except:
-            print "\nOops, that stop is unavailable. Please pick another column (from 1 to 5)."
+            print "\nOops, that spot is unavailable. Please pick another column (from 1 to 5)."
             pebcak_sys(pebcak_numb)
-
+#DECIDES WHERE THE ENEMY WILL SHOOT THAT ROUND
     enemy_guess_row = random_row(board)
     enemy_guess_col = random_col(board)
 #THIS MAKES SURE THAT THE ENEMY IS SHOOTING IN A VALID LOCATION
     while True:
         if ((board[enemy_guess_row][enemy_guess_col] != "O") and (board[enemy_guess_row][enemy_guess_col] != "B")) \
-        or (enemy_guess_col == guess_col and enemy_guess_row == guess_row):
+        or (enemy_guess_col == guess_col and enemy_guess_row == guess_row) or \
+        (enemy_guess_row == ship_row and enemy_guess_col == ship_col):
             enemy_guess_row = random_row(board)
             enemy_guess_col = random_row(board)
-        if ((board[enemy_guess_row][enemy_guess_col] == "O") or (board[enemy_guess_row][enemy_guess_col] == "B")) \
-        and (enemy_guess_col != guess_col and enemy_guess_row != guess_row):
+        if (board[enemy_guess_row][enemy_guess_col] == "O" or board[enemy_guess_row][enemy_guess_col] == "B") and \
+        (enemy_guess_row != guess_row or enemy_guess_col != guess_col):
             board[enemy_guess_row][enemy_guess_col] = "Y"
             break
 # THIS IS WHAT DETERMINES IF YOU WON OR NOT EACH ROUND
@@ -114,7 +105,7 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
         print "Congratulations! You sank the enemy's battleship!"
         break
     else:
-        print "You missed the enemy's battleship!"
+        print "You missed the enemy's battleship!\n"
         board[guess_row][guess_col] = "X"
     if guess_col == player_col and guess_row == player_row:
         board[guess_row][guess_col] = "B"
@@ -128,6 +119,6 @@ IT JUST STOPS PRINTING ANYTHING AND DOES NOTHING.  'TIS VERY STRANGE INDEED!
         if answer.lower() == 'y':
             print "The enemy's battleship was on row " + str(ship_row + 1) + " and column " + str(ship_col + 1) + "."
             board[ship_row][ship_col] = "E"
-            board[player_row][player_col] = "C"
+            board[player_row][player_col] = "B"
             print print_board(board)
         break
