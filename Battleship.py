@@ -13,6 +13,7 @@ make sense :D
 # Todo: make it so that if you try and guess your own spot, it stops everything and makes you redo, because currently you can win by just guessing your spot again amd again
 # Todo: on the last round, your battleship's "B" turns to a "Y"
 # Todo: when the player wins, the board that is printed out doesn't show their winning move
+# Todo: there is currently the possibility of a tie.  If that happens, make the player play a tie breaker round (until a winner is decided)
 
 from random import randint
 
@@ -103,7 +104,7 @@ while True:
         print_board(board)
         break
     else:
-        print "You missed the enemy's battleship!\n"
+        print "\nYou missed the enemy's battleship!\n"
         board[guess_row][guess_col] = "X"
     if guess_col == player_col and guess_row == player_row:
         board[guess_row][guess_col] = "B"
